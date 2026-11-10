@@ -24,15 +24,15 @@ type Blockchain struct {
 
 // 現在の処理
 type Transaction struct {
-  Sender string // 送信者
-  Recipient string // 受信者
-  Amount int
+  Sender string // 送信者のアドレス
+  Recipient string // 受信者のアドレス
+  Amount int // 送金する金額
 }
 
 type Block struct {
   Index int `json:"index"`
   Timestamp int64 `json:"timestamp"`
-  Transaction Transaction `json:"transactions"`
+  Transaction []Transaction `json:"transactions"`
   proof int `json:"proof"`
   PreviousHash string `json:"previous_hash"`
 }
@@ -57,6 +57,7 @@ func (Blockchain) Init() {
 // === レシーバー(構造体内の関数という考え方と同じ) ===
 
 // 新ノードをつくる処理
+// 新しいブロックを作ってそれを
 func (Blockchain) NewBlock(previuousHash string, proof int) Block {
   pg := ""
   if previouusHash != ""{
@@ -75,4 +76,15 @@ func (Blockchain) NewBlock(previuousHash string, proof int) Block {
   blockchain.Chain = append(blockchain.Chain, block)
 
   return block
+}
+
+func (Blockchain) NewTransaction(sender string, recipient string, amount int) int {
+  blockchain.CurrentTransaction = Transaction {
+    Sender: sender,
+    Recipient: recipient,
+    Amount: amount
+  }
+  return blockchain.LastBlock().Index + 1
+}
+
 }
