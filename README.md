@@ -29,7 +29,7 @@ graph LR
     H0 --> PH1
     H1 --> PH2
 
-jsequenceDiagram
+sequenceDiagram
     actor ユーザー
     participant P2P通信
     participant メモリプール
